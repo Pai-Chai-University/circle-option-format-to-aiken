@@ -1,5 +1,5 @@
 # Change the question format from circle-option-format-to-aiken for Moodle question import
-question input file name in txt format : quiz.txt
+question input file name in txt format : quiz.txt  
 question output file name in txt format : aquiz.txt
 
 ## input question option type  
