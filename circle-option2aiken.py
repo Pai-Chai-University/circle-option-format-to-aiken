@@ -6,40 +6,21 @@ input_name = os.getcwd()+'\\quiz.txt'
 tmp_name = os.getcwd()+'\\nquiz.txt'
 final_name = os.getcwd()+'\\aquiz.txt'
 
+
 with codecs.open(input_name, 'r', encoding='utf-8') as fi,  codecs.open(tmp_name, 'w', encoding='utf-8') as fo:
 
     for line in fi:
 
         text = line
-        regex = re.compile('^\d+.')
+        regex = re.compile(r'^\d+.')
         matchobj = regex.search(text)
         blank = text.strip()
+
         if matchobj:
             fo.write(text)
         elif blank=="" :
             text=""
         else :
-            ans1 = re.compile('❶')
-            ans2 = re.compile('❷')
-            ans3 = re.compile('❸')
-            ans4 = re.compile('❹')
-
-            matchobj = ans1.search(text)
-            if matchobj:
-                ans = "ANSWER: A"
-  
-            matchobj = ans2.search(text)
-            if matchobj:
-                ans = "ANSWER: B"
-
-            matchobj = ans3.search(text)
-            if matchobj:
-                ans = "ANSWER: C"
-
-            matchobj = ans4.search(text)
-            if matchobj:
-                ans = "ANSWER: D"
-
             opt1 = re.compile('①|❶')
             opt2 = re.compile('②|❷')
             opt3 = re.compile('③|❸')
@@ -50,13 +31,10 @@ with codecs.open(input_name, 'r', encoding='utf-8') as fi,  codecs.open(tmp_name
             matchobj3 = opt3.search(text)
             matchobj4 = opt4.search(text)
             
-            line1=""
-            line2=""
-
             if matchobj1 and matchobj2 :
                 opt=matchobj2.group()
                 twoline=re.split(opt,text)
-                line1=twoline[0]
+                line1=twoline[0].lstrip()
                 line2="②"+twoline[1]
                 fo.write(line1)
                 fo.write("\n")
@@ -65,18 +43,16 @@ with codecs.open(input_name, 'r', encoding='utf-8') as fi,  codecs.open(tmp_name
             elif matchobj3 and matchobj4 :
                 opt=matchobj4.group()
                 twoline=re.split(opt,text)
-                line1=twoline[0]
+                line1=twoline[0].lstrip()
                 line2="④"+twoline[1]
                 fo.write(line1)
                 fo.write("\n")
                 fo.write(line2)
                
             else  :
-                fo.write(text)
+                fo.write(text.lstrip())
                 
             if matchobj4 :
-                fo.write(ans)
-                fo.write("\n")
                 fo.write("\n")
             
 with codecs.open(tmp_name, 'r', encoding='utf-8') as fi,  codecs.open(final_name, 'w', encoding='utf-8') as fo:
@@ -103,7 +79,8 @@ with codecs.open(tmp_name, 'r', encoding='utf-8') as fi,  codecs.open(final_name
         coptobj2 = copt2.search(text)
         coptobj3 = copt3.search(text)
         coptobj4 = copt4.search(text)
-
+        blank = text.strip()
+  
         if qobj:
             fo.write(text)
         elif optobj1 :
@@ -121,14 +98,20 @@ with codecs.open(tmp_name, 'r', encoding='utf-8') as fi,  codecs.open(final_name
         elif coptobj1 :
             new_line=text.replace('❶','A.')
             fo.write(new_line.lstrip())
+            ans="ANSWER: A"
         elif coptobj2 :
             new_line=text.replace('❷','B.')
             fo.write(new_line.lstrip())
+            ans="ANSWER: B"
         elif coptobj3 :
             new_line=text.replace('❸','C.')
             fo.write(new_line.lstrip())
+            ans="ANSWER: C"
         elif coptobj4 :
             new_line=text.replace('❹','D.')
             fo.write(new_line.lstrip())
-        else :
-            fo.write(text)
+            ans="ANSWER: D"
+        elif blank=="" :
+            fo.write(ans)         
+            fo.write("\n")
+            fo.write("\n")
