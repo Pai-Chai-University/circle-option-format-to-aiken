@@ -15,8 +15,11 @@ with codecs.open(input_name, 'r', encoding='utf-8') as fi,  codecs.open(tmp_name
         regex = re.compile(r'^\d+.')
         matchobj = regex.search(text)
         blank = text.strip()
-
-        if matchobj:
+        headex = re.compile('\d과목\s:')
+        headobj = headex.search(text)
+        if headobj :
+            text=""
+        elif matchobj:
             fo.write(text)
         elif blank=="" :
             text=""
@@ -25,28 +28,39 @@ with codecs.open(input_name, 'r', encoding='utf-8') as fi,  codecs.open(tmp_name
             opt2 = re.compile('②|❷')
             opt3 = re.compile('③|❸')
             opt4 = re.compile('④|❹')
+            opt2c = re.compile('❷')
+            opt4c = re.compile('❹')
 
             matchobj1 = opt1.search(text)
             matchobj2 = opt2.search(text)
             matchobj3 = opt3.search(text)
             matchobj4 = opt4.search(text)
+            matchobj2c = opt2c.search(text)
+            matchobj4c = opt4c.search(text)
             
             if matchobj1 and matchobj2 :
                 opt=matchobj2.group()
                 twoline=re.split(opt,text)
                 line1=twoline[0].lstrip()
-                line2="②"+twoline[1]
                 fo.write(line1)
                 fo.write("\n")
+                if matchobj2c :
+                    line2="❷"+twoline[1]
+                else :
+                    line2="②"+twoline[1]
                 fo.write(line2)
                 
             elif matchobj3 and matchobj4 :
                 opt=matchobj4.group()
                 twoline=re.split(opt,text)
                 line1=twoline[0].lstrip()
-                line2="④"+twoline[1]
+
                 fo.write(line1)
                 fo.write("\n")
+                if matchobj4c :
+                    line2="❹"+twoline[1]
+                else :
+                    line2="④"+twoline[1]
                 fo.write(line2)
                
             else  :
